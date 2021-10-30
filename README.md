@@ -6,4 +6,4 @@ It has to be used together with dockerized https://git.kistler.com/Gmt/interflex
 2. Navigate to release folder
 3. Run BureaucracyAutomator2.exe, do not forget to have runnung docerized https://git.kistler.com/Gmt/interflexwebapi
 
-![](https://git.kistler.com/Gmt/bureaucracyautomator2/-/raw/master/sampleImage.png?inline=false)
+![](https://github.com/MatusGramblicka/BureaucracyAutomator/blob/master/sampleImage.png?inline=false)
