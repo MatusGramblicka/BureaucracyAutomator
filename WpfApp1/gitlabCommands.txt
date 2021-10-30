@@ -1,0 +1,24 @@
+curl -X GET https://git.kistler.com/users -H  "Private-Token: " -D-      
+
+
+curl https://git.kistler.com/api/v4/user/ --header "PRIVATE-TOKEN: garzehXZzQYhj3EKtg-F"
+curl https://git.kistler.com/api/v4/projects/ --header "PRIVATE-TOKEN: garzehXZzQYhj3EKtg-F"
+
+curl https://git.kistler.com/api/v4/projects?per_page=100 --header "PRIVATE-TOKEN: garzehXZzQYhj3EKtg-F"
+curl "https://git.kistler.com/api/v4/projects?per_page=100&page=2" --header "PRIVATE-TOKEN: garzehXZzQYhj3EKtg-F"
+
+
+curl https://git.kistler.com/api/v4/projects/2664/repository/branches --header "PRIVATE-TOKEN: garzehXZzQYhj3EKtg-F"
+
+
+curl https://git.kistler.com/api/v4/projects/2664/repository/branches --header "PRIVATE-TOKEN: garzehXZzQYhj3EKtg-F"
+
+3255
+
+curl https://git.kistler.com/api/v4/projects/2664/repository/commits --header "PRIVATE-TOKEN: garzehXZzQYhj3EKtg-F"
+
+curl https://git.kistler.com/api/v4/projects/2664/repository/commits?ref_name=dev --header "PRIVATE-TOKEN: garzehXZzQYhj3EKtg-F"
+
+curl "https://git.kistler.com/api/v4/projects/2664/merge_requests?state=all&created_after=2019-05-01T08:00:00Z&per_page=100&page=1" --header "PRIVATE-TOKEN: garzehXZzQYhj3EKtg-F"
+
+curl "https://git.kistler.com/api/v4/projects/2664/merge_requests/1045/commits?per_page=100&page=1" --header "PRIVATE-TOKEN: garzehXZzQYhj3EKtg-F"
