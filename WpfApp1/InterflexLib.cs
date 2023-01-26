@@ -1,6 +1,7 @@
 ﻿using BureaucracyAutomator2.Contracts;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -73,7 +74,7 @@ namespace BureaucracyAutomator2
                         var tableDate = _driver.FindElement(By.CssSelector($"div#dataDiv > table > tbody > tr:nth-child({i}) > td > table > tbody > tr > td:nth-child(3) > div > a > nobr"));
 
                         var tableColumns = _driver.FindElements(By.CssSelector($"div#dataDiv > table > tbody > tr:nth-child({i}) > td"));
-                        
+
                         var tableActualTime = _driver.FindElement(By.CssSelector($"div#dataDiv > table > tbody > tr:nth-child({i}) > td:nth-child({tableColumns.Count - 1})"));
 
                         int j = i;
@@ -82,16 +83,29 @@ namespace BureaucracyAutomator2
                         {
                             if (!IsElementPresent(By.CssSelector($"div#dataDiv > table > tbody > tr:nth-child({j}) > td:nth-child({tableColumns.Count - 3})")))
                                 break;
-                            var tableAbsenceReasons = _driver.FindElement(By.CssSelector($"div#dataDiv > table > tbody > tr:nth-child({j}) > td:nth-child({tableColumns.Count - 3})"));                            
+                            var tableAbsenceReasons = _driver.FindElement(By.CssSelector($"div#dataDiv > table > tbody > tr:nth-child({j}) > td:nth-child({tableColumns.Count - 3})"));
 
                             if (!tableAbsenceReasons.Text.IsEmptyOrAllSpaces())
                             {
-                                if (tableAbsenceReasons.Text == "Kant.Feiertag")
+                                if (tableAbsenceReasons.Text == "Kant.Feiertag" || tableAbsenceReasons.Text == "Neujahr/NewYear")
                                     break;
 
+                                if (tableAbsenceReasons.Text == "Overtime comp.")
+                                {
+                                    var overTimeCompDuration = _driver.FindElement(By.CssSelector($"div#dataDiv > table > tbody > tr:nth-child({j}) > td:nth-child({tableColumns.Count - 4})"));
+                                    var overTimeCompDurationText = overTimeCompDuration.Text;
+                                    var overTimeCompDurationTextOnlyNumerics = overTimeCompDurationText.Substring(0, overTimeCompDurationText.Length - 2);
+                                    localAbsenceReasons.Add(new AbsenceReason
+                                    {
+                                        Absence = tableAbsenceReasons.Text,
+                                        Duration = double.Parse(overTimeCompDurationTextOnlyNumerics)
+                                    });
+                                    break;
+                                }
+
                                 var duration = GetAbsenceReasonTimeDuration(j, tableColumns.Count);
-                                localAbsenceReasons.Add(new AbsenceReason()
-                                { 
+                                localAbsenceReasons.Add(new AbsenceReason
+                                {
                                     Absence = tableAbsenceReasons.Text,
                                     Duration = duration
                                 });
@@ -100,7 +114,7 @@ namespace BureaucracyAutomator2
                             j++;
                         } while (!IsElementPresent(By.CssSelector($"div#dataDiv > table > tbody > tr:nth-child({j}) > td > table > tbody > tr > td:nth-child(3) > div > a > nobr")));
 
-                        listActualTimes.Add(new DayAndTime()
+                        listActualTimes.Add(new DayAndTime
                         {
                             ActualTime = tableActualTime.Text,
                             Day = tableDate.Text,
@@ -180,6 +194,6 @@ namespace BureaucracyAutomator2
             {
                 return false;
             }
-        }        
+        }
     }
 }
